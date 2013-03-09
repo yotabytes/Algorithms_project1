@@ -26,6 +26,9 @@ public class Sort {
 		
 		SortingAlgorithms sorter = new SortingAlgorithms();
 		
+		System.out.println(algorithm);
+		System.out.println("size compares");
+		
 		for (int j = 2; j <= 100; j++) { //Loop over data sizes and generate shuffled array for each size
 			data = new Integer[j];
 			getNewData(j);
