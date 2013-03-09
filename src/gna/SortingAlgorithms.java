@@ -247,5 +247,12 @@ public class SortingAlgorithms {
 	 StdRandom.shuffle(data);
 	 return data;
  }
+ 
+ public static int[] getArrayOfIntegers(int size) {
+	 int[] data = new int[size];
+	 for (int i = 0; i < size; i++)
+		 data[i] = i;
+	 return data;
+ }
 
 }

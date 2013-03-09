@@ -7,6 +7,8 @@ public class Sort {
 	
 	static Integer[] data;
 	static int[] permutations;
+	
+	final static boolean ordered = true; //True if the input data needs to be sorted already, false if you want a random permutation
 
 	/**
 	 * Tests the amount of compares needed for the chosen algorithm.
@@ -22,7 +24,11 @@ public class Sort {
 			}
 		}
 		
-		final int REPEATS_PER_SIZE = 100; //Amount of repeats for each input size.
+		
+		int REPEATS_PER_SIZE = 100; //Amount of repeats for each input size.
+		
+		if (ordered)
+			REPEATS_PER_SIZE = 1; //No point iterating multiple times when the results are all identical (same array used)
 		
 		SortingAlgorithms sorter = new SortingAlgorithms();
 		
@@ -63,12 +69,23 @@ public class Sort {
 		
 	}
 	
+	/**
+	 * Puts new integers in the data array. They will be in sorted or random order, depending on how the 'ordered' flag is set.
+	 * @param j The size of the data array.
+	 */
 	private static void getNewData(int j) { //Put a new random order into the data array
-
-		permutations = (SortingAlgorithms.getRandomPermutationOfIntegers(j));
-		int k = 0;
-		for (int value : permutations) {
-		    data[k++] = Integer.valueOf(value);
+		if (ordered) {
+			permutations = (SortingAlgorithms.getArrayOfIntegers(j));
+			int k = 0;
+			for (int value : permutations) {
+			    data[k++] = Integer.valueOf(value);
+			}
+		}else {
+			permutations = (SortingAlgorithms.getRandomPermutationOfIntegers(j));
+			int k = 0;
+			for (int value : permutations) {
+			    data[k++] = Integer.valueOf(value);
+			}
 		}
 	
 	}
