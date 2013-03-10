@@ -1,0 +1,72 @@
+Doubling ratio experiment: insertion (sorted input:true)
+Input size | running time | ratio curr/prev | #compares
+     250     0.0   0.0 249
+     500     0.0   NaN 499
+    1000     0.0   NaN 999
+    2000     0.0 Infinity 1999
+    4000     0.0   1.0 3999
+    8000     0.0   0.0 7999
+   16000     0.0   NaN 15999
+   32000     0.0 Infinity 31999
+   64000     0.0   2.0 63999
+  128000     0.0   5.5 127999
+  256000     0.0   2.6 255999
+  512000     0.1   2.0 511999
+ 1024000     0.2   3.2 1023999
+ 2048000     0.3   1.4 2047999
+
+Doubling ratio experiment: (quick - unsorted)
+   250     0.0   0.5
+   500     0.0   0.0
+  1000     0.0 Infinity
+  2000     0.0   1.0
+  4000     0.0   1.0
+  8000     0.0   2.0
+ 16000     0.0   2.0
+ 32000     0.0   2.5
+ 64000     0.0   2.2
+128000     0.1   2.5
+256000     0.1   2.3
+512000     0.3   2.5
+1024000     0.8   2.5
+2048000     1.7   2.2
+
+Doubling ratio experiment: (insertion - unsorted)
+   250     0.0   0.5
+   500     0.0   0.5
+  1000     0.0   4.0
+  2000     0.0   3.5
+  4000     0.1   4.2
+  8000     0.2   3.9
+ 16000     0.9   4.0
+ 32000     3.7   4.0
+ 64000    15.2   4.1
+128000    66.5   4.4
+256000   304.4   4.6
+512000  1748.4   5.7
+
+
+New data after refining DoubleRatio class:
+
+Doubling ratio experiment: quick (sorted input:false)
+Input size | running time | ratio curr/prev | #compares
+     250     0.0   0.5 2155
+     500     0.0   1.0 5285
+    1000     0.0   2.0 12543
+    2000     0.0   1.0 30100
+    4000     0.0   0.5 58521
+    8000     0.0   2.0 124498
+   16000     0.0   2.5 284850
+   32000     0.0   2.2 589310
+   64000     0.0   2.0 1295371
+  128000     0.1   3.3 2736581
+  256000     0.1   1.7 5736161
+  512000     0.3   2.5 12398855
+ 1024000     0.8   2.5 26164312
+ 2048000     1.6   2.2 61063245
+
+Doubling ratio experiment: quick (sorted input:true)
+Geeft een stackoverflow bij N > 4000. Dit komt omdat als pivot steeds
+het eerste element wordt genomen, en bij een gesorteerde rij roept hij
+zichzelf dus N-1 keer recursief op.
+
