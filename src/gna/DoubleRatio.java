@@ -10,6 +10,8 @@ public class DoubleRatio {
 	static int[] permutations;
 	static String algorithm;
 	static int MAX = 2500000;
+	static boolean ordered = true;
+	static int compares;
 	
 	/**
 	 * runs a double ratio experiment for insertion sort and quick sort, then outputs the results in terms of time taken and array size.
@@ -17,7 +19,7 @@ public class DoubleRatio {
 	 */
 	public static void main(String[] args) {
 		
-		algorithm = "quick"; //Type of algorithm to use for sorting.
+		algorithm = "insertion"; //Type of algorithm to use for sorting.
 		
 		
 		
@@ -29,12 +31,14 @@ public class DoubleRatio {
 			}
 		}
 		
-		System.out.println("Doubling ratio experiment:");
+		System.out.println("Doubling ratio experiment: " + algorithm + " (sorted input:" + ordered + ")");
+		System.out.println("Input size | running time | ratio curr/prev | #compares");
 		double prev = timeTrial(125);
 		for (int N = 250; N <= MAX; N += N) {
 			double time = timeTrial(N);
-			StdOut.printf("%6d %7.1f ", N, time);
-			StdOut.printf("%5.1f\n", time/prev);
+			StdOut.printf("%8d %7.1f ", N, time);
+			StdOut.printf("%5.1f ", time/prev);
+			StdOut.printf("%-3d\n", compares);
 			prev = time;
 		}
 		
@@ -47,7 +51,12 @@ public class DoubleRatio {
 	 */
 	private static Integer[] getNewData(int j) { //Put a new random order into the data array
 			 Integer[] generated = new Integer[j];
-			permutations = (SortingAlgorithms.getRandomPermutationOfIntegers(j));
+			 if (!ordered) {
+				 permutations = (SortingAlgorithms.getRandomPermutationOfIntegers(j));
+			 }
+			 else {
+				 permutations = (SortingAlgorithms.getArrayOfIntegers(j));
+				}
 			int k = 0;
 			for (int value : permutations) {
 			    generated[k++] = Integer.valueOf(value);
@@ -69,13 +78,13 @@ public class DoubleRatio {
 		if (algorithm.equals("insertion")) {
 				timer = new Stopwatch();
 				data = getNewData(N);	
-				Experiment.insertionSort(data);
+				compares = Experiment.insertionSort(data);
 				return timer.elapsedTime();
 
 		} else {
 				timer = new Stopwatch();
 				data = getNewData(N);	
-				Experiment.quickSort(data);
+				compares = Experiment.quickSort(data);
 				return timer.elapsedTime();
 		}
 		

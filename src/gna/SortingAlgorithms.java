@@ -132,7 +132,7 @@ public class SortingAlgorithms {
    */
   private static <T extends Comparable<T>> int partition(T[] a, int lo, int hi) {
 	  int i = lo, j = hi+1; //Left and right scan indices
-	  Comparable v = a[lo];
+	  T v = a[lo];
 	  while (true) {
 		  while (less(a[++i], v)) 
 			  if (i == hi) break;
@@ -205,7 +205,7 @@ public class SortingAlgorithms {
    * @param w Second element to compare.
    * @return True if the first argument is smaller, false if the second argument is smaller.
    */
- private static boolean less(Comparable v, Comparable w) {
+ private static <T extends Comparable<T>> boolean less(T v, T w) {
 	 currentCompares++;
 	 return v.compareTo(w) < 0;
 
@@ -217,8 +217,8 @@ public class SortingAlgorithms {
   * @param i First element position in the array.
   * @param j Second element position in the array.
   */
- private static void exch(Comparable[] a, int i, int j) {
-	 Comparable t = a[i]; 
+ private static <T extends Comparable<T>> void exch(T[] a, int i, int j) {
+	 T t = a[i]; 
 	 a[i] = a[j]; 
 	 a[j] = t;
  }
@@ -228,7 +228,7 @@ public class SortingAlgorithms {
   * @param a Array to check.
   * @return True if the array is sorted, false if there are still unsorted elements.
   */
- public static boolean isSorted(Comparable[] a) {
+ public static <T extends Comparable<T>> boolean isSorted(T[] a) {
 	 for (int i = 1; i < a.length; i++)
 		 if (less(a[i], a [i-1])) return false;
 	 return true;
