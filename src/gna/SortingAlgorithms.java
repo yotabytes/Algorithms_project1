@@ -1,5 +1,6 @@
 package gna;
 
+import edu.princeton.cs.algs4.IndexMinPQ;
 import edu.princeton.cs.introcs.StdRandom;
 
 /**
@@ -12,6 +13,7 @@ import edu.princeton.cs.introcs.StdRandom;
  */
 public class SortingAlgorithms {
 	private static int currentCompares = 0; // Keeps track of the amount of compares used in the current algorithm.
+	private static int currentExchanges = 0;
   /**
    * Sorts the given array using selection sort.
    * @param array The array to be sorted.
@@ -145,8 +147,6 @@ public class SortingAlgorithms {
 	  return j;
   }
   
- /* private static Queue<Comparable>[] kwayaux; //Queue to aid in merging the k-way subarrays
-  private static int j = 0; //Identifier for array of queues to merge in k-way merge sort */
   /**
    * Sorts the given array using k-way merge sort. The implementation can assume that k is at least 2. 
    * k is the number of the number of subarrays (at each level) that must be separately sorted via a recursive call and merged via a k-way merge. 
@@ -162,41 +162,44 @@ public class SortingAlgorithms {
   
   public <T extends Comparable<T>> int[] kWayMergeSort(T[] array, int k) {
 	  //TODO Implement k-way merge sort algorithm.
-	  /*currentCompares = 0;
-	  kwayaux = (Queue<Comparable>[]) new Object[k+1]; //We only need k+1 queues and reuse the same ones */
+	  currentCompares = 0;
+	  currentExchanges = 0;
 	  int[] results = new int[2]; //Wrapper to return two integers
-	   /*int lo, hi;
+	  int lo, hi;
 	  lo = 0;						//Initial boundaries are the edges of the array to be sorted.
 	  hi = array.length-1;
 	  kwayMergeSortRecursive(array, k, lo, hi);
-		  */
+		  
 	  results[0] = currentCompares;
+	  results[1] = currentExchanges;
 	  return results;
   }
   
   private static <T extends Comparable<T>> void kwayMergeSortRecursive(T[] a,int k, int lo, int hi) {
-	  /*if (hi - lo < k) {		//If array to be sorted cannot be split into k parts anymore, use quicksort
-		  qSort(a, lo, hi);
-		  for (int i = lo; i < hi + 1; i++) {
-			  kwayaux[j].enqueue(a[i]); //Add element at position i to Queue j, for all elements in the current subarray
-		  }
-		  j++; //Increase the Queue index after the current queue is finished to start filling the next queue.
+	  if (hi - lo < k) {		//If array to be sorted cannot be split into k parts anymore, use quicksort
+		  qSort(a, lo, hi);  
 		  return;
 	  }
 	 if (lo < hi) {
 		 for (int i = 0; i < k; i++) {
-			 kwayMergeSortRecursive(a, lo + i * (hi-lo+1)/k, lo + (i+1)*(hi-lo+1)/k - 1, k);
+			 kwayMergeSortRecursive(a, k, lo + (i+1)*(hi-lo+1)/k - 1, lo + i * (hi-lo+1)/k);
 		 }
 		 kwayMerge(a, lo, hi, k);
-	 }*/
+	 }
   }
   
   private static <T extends Comparable<T>> void kwayMerge(T[] a, int lo, int hi, int k) { //Merge the queues into the original array
-	/* IndexMinPQ<T> pq = new IndexMinPQ<T>(k);
+	 IndexMinPQ<T> pq = new IndexMinPQ<T>(hi-lo+1);
+	 for (int i = 0; i < hi-lo+1; i++) { //Insert all sorted subarrays into binary heap priority queue
+		 pq.insert(i, a[i]);
+	 	currentExchanges++;
+	 }
+	 for (int i = lo; i < hi+1; i++) {
+		 a[i] = pq.minKey();
+		 pq.delMin();
+		 currentCompares++;
+	 }
 	 
-	 for (int i = 0; i < k; i++) //Insert all sorted subarrays into binary heap
-		 pq.insert(i, a[lo+i*(hi-lo+1)/k]);
-	 */
   }
  
   /**
@@ -221,6 +224,7 @@ public class SortingAlgorithms {
 	 T t = a[i]; 
 	 a[i] = a[j]; 
 	 a[j] = t;
+	 currentExchanges++;
  }
  
  /**
