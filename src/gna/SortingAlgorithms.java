@@ -187,7 +187,17 @@ public class SortingAlgorithms {
 		 kwayMerge(a, lo, hi, k);
 	 }
   }
-  
+  /**
+   * Merges together subarrays using a priority queue based on a binary heap structure. It is very hard to determine the amount of 
+   * exchanges and compares because the IndexMinPQ executes compares and exchanges several times based on conditions.
+   * For an accurate amount of compares and exchanges, a solution would be to make a modified copy of the IndexMinPQ library file,
+   * and to create two class variables in that class that get incremented each time compareTo respectively exch are called. Then we 
+   * could write methods in that class that return those values and add them to our values in this class.
+   * @param a The data to be sorted.
+   * @param lo The lower boundary of the subarray to be merged through a priority queue.
+   * @param hi The higher boundary of the subarray to be merged.
+   * @param k The k in k-way merge sort.
+   */
   private static <T extends Comparable<T>> void kwayMerge(T[] a, int lo, int hi, int k) { //Merge the queues into the original array
 	 IndexMinPQ<T> pq = new IndexMinPQ<T>(hi-lo+1);
 	 for (int i = 0; i < hi-lo+1; i++) { //Insert all sorted subarrays into binary heap priority queue
@@ -197,7 +207,7 @@ public class SortingAlgorithms {
 	 for (int i = lo; i < hi+1; i++) {
 		 a[i] = pq.minKey();
 		 pq.delMin();
-		 currentCompares++;
+		 currentExchanges+=2;
 	 }
 	 
   }
